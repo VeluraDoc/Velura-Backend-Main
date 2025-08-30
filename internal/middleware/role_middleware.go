@@ -10,22 +10,14 @@ import (
 
 func RoleMiddleware(roles ...string) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		userID, exists := c.Get("userID")
+		user, exists := c.Get("user")
 		if !exists {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "user not found"})
 			c.Abort()
 			return
 		}
 
-		user, err := model.GetUserByID(userID.(string))
-
-		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "user not found"})
-			c.Abort()
-			return
-		}
-
-		userRole := user.GetRole()
+		userRole := user.(*model.User).GetRole()
 
 		if slices.Contains(roles, userRole) {
 			c.Next()

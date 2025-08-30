@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/VeluraDoc/Velura-Backend-Main/config"
+	"github.com/VeluraDoc/Velura-Backend-Main/internal/model"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
@@ -41,7 +42,16 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		claims, _ := token.Claims.(jwt.MapClaims)
-		c.Set("userID", claims["id"])
+
+		user, err := model.GetUserByID(claims["id"].(string))
+
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "user not found"})
+			c.Abort()
+			return
+		}
+
+		c.Set("user", user)
 
 		c.Next()
 	}
