@@ -5,6 +5,7 @@ import (
 
 	"github.com/VeluraDoc/Velura-Backend-Main/config"
 	"github.com/VeluraDoc/Velura-Backend-Main/internal/handler"
+	"github.com/VeluraDoc/Velura-Backend-Main/internal/middleware"
 	"github.com/VeluraDoc/Velura-Backend-Main/internal/model"
 	"github.com/gin-gonic/gin"
 )
@@ -26,6 +27,9 @@ func main() {
 
 	r.POST("/auth/sign-up", handler.SignUpHandler)
 	r.POST("/auth/login", handler.LoginHandler)
+
+	protectedUserRoutes := r.Group("/user").Use(middleware.AuthMiddleware())
+	protectedUserRoutes.GET("/me", handler.GetMe)
 
 	r.Run(":" + port)
 }
