@@ -1,22 +1,16 @@
 package main
 
 import (
-	"log"
-	"os"
-
+	"github.com/VeluraDoc/Velura-Backend-Main/config"
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 )
 
 func main() {
-	loadEnvErr := godotenv.Load()
-	if loadEnvErr != nil {
-		log.Fatalf("Error loading .env file: %v", loadEnvErr)
-	}
+	config.LoadEnv()
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
+	port := "8080"
+	if envPort := config.GetEnv("PORT"); envPort != "" {
+		port = envPort
 	}
 
 	r := gin.Default()
@@ -28,4 +22,5 @@ func main() {
 	})
 
 	r.Run(":" + port)
+
 }
