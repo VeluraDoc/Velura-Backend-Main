@@ -22,22 +22,21 @@ func GenerateToken(id string) (string, error) {
 	return token.SignedString(jwtSecretKey)
 }
 
-func VerifyToken(tokenString string) (*jwt.Token, map[string]interface{}, error) {
+func VerifyToken(tokenString string) (map[string]interface{}, error) {
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		return jwtSecretKey, nil
 	})
 
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		userData := make(map[string]interface{})
 		userData["id"] = claims["id"]
-		userData["email"] = claims["email"]
-		return token, userData, nil
+		return userData, nil
 	}
 
-	return nil, nil, errors.New("invalid token")
+	return nil, errors.New("invalid token")
 }
