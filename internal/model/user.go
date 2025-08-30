@@ -50,9 +50,7 @@ func (u *User) CheckPassword(password string) bool {
 }
 
 func (u *User) Save() error {
-	db := config.ConnectToDB()
-
-	result := db.Save(u)
+	result := config.DB.Save(u)
 	if result.Error != nil {
 		return result.Error
 	}
@@ -61,12 +59,21 @@ func (u *User) Save() error {
 }
 
 func (u *User) Delete() error {
-	db := config.ConnectToDB()
-
-	result := db.Delete(&User{}, "id = ?", u.ID)
+	result := config.DB.Delete(&User{}, "id = ?", u.ID)
 	if result.Error != nil {
 		return result.Error
 	}
 
 	return nil
+}
+
+func GetUserByEmail(email string) (User, error) {
+	var user User
+
+	result := config.DB.Where("email = ?", email).First(&user)
+	if result.Error != nil {
+		return User{}, result.Error
+	}
+
+	return user, nil
 }

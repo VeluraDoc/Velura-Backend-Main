@@ -25,6 +25,7 @@ func main() {
 	r := gin.Default()
 
 	r.POST("/auth/sign-up", handlers.SignUpHandler)
+	r.POST("/auth/login", handlers.LoginHandler)
 
 	r.Run(":" + port)
 }

@@ -42,3 +42,40 @@ func SignUpHandler(c *gin.Context) {
 		"token":   token,
 	})
 }
+
+func LoginHandler(c *gin.Context) {
+	var inputUser model.User
+
+	if err := c.ShouldBindJSON(&inputUser); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid input"})
+		return
+	}
+
+	if err := inputUser.Validate(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var user model.User
+	var err error
+	if user, err = model.GetUserByEmail(inputUser.Email); err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid email or password"})
+		return
+	}
+
+	if !user.CheckPassword(inputUser.Password) {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid email or password"})
+		return
+	}
+
+	token, err := service.GenerateToken(user.ID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to generate token"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Login successful",
+		"token":   token,
+	})
+}
