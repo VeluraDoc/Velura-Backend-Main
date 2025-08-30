@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/VeluraDoc/Velura-Backend-Main/config"
-	"github.com/VeluraDoc/Velura-Backend-Main/internal/handlers"
+	"github.com/VeluraDoc/Velura-Backend-Main/internal/handler"
 	"github.com/VeluraDoc/Velura-Backend-Main/internal/model"
 	"github.com/gin-gonic/gin"
 )
@@ -24,8 +24,8 @@ func main() {
 
 	r := gin.Default()
 
-	r.POST("/auth/sign-up", handlers.SignUpHandler)
-	r.POST("/auth/login", handlers.LoginHandler)
+	r.POST("/auth/sign-up", handler.SignUpHandler)
+	r.POST("/auth/login", handler.LoginHandler)
 
 	r.Run(":" + port)
 }
