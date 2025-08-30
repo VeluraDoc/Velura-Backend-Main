@@ -4,13 +4,24 @@ import (
 	"errors"
 
 	"github.com/VeluraDoc/Velura-Backend-Main/config"
+	"github.com/go-playground/validator/v10"
 	"golang.org/x/crypto/bcrypt"
 )
 
+var validate = validator.New()
+
 type User struct {
 	ID       string `json:"id" gorm:"primaryKey"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Email    string `json:"email" gorm:"unique_index;not null" validate:"required,email"`
+	Password string `json:"password" gorm:"not null" validate:"required,min=8"`
+}
+
+func (u *User) Validate() error {
+	if err := validate.Struct(u); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (u *User) HashPassword(password string) error {

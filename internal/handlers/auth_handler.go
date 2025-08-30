@@ -16,6 +16,11 @@ func SignUpHandler(c *gin.Context) {
 		return
 	}
 
+	if err := user.Validate(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	if err := user.HashPassword(user.Password); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to hash password"})
 		return
