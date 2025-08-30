@@ -82,3 +82,14 @@ func GetUserByEmail(email string) (User, error) {
 
 	return user, nil
 }
+
+func GetUserByID(id string) (User, error) {
+	var user User
+
+	result := config.DB.Where("id = ?", id).First(&user)
+	if result.Error != nil {
+		return User{}, errors.New("user with id " + id + " not found")
+	}
+
+	return user, nil
+}
