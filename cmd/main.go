@@ -7,6 +7,7 @@ import (
 
 func main() {
 	config.LoadEnv()
+	config.ConnectToDB()
 
 	port := "8080"
 	if envPort := config.GetEnv("PORT"); envPort != "" {
