@@ -16,6 +16,7 @@ type User struct {
 	ID       string `json:"id" gorm:"primaryKey;type:uuid"`
 	Email    string `json:"email" gorm:"unique;index;not null" validate:"required,email"`
 	Password string `json:"password" gorm:"not null" validate:"required,min=8"`
+	Role     Role   `json:"role" gorm:"type:int;not null"`
 }
 
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
@@ -29,6 +30,10 @@ func (u *User) Validate() error {
 	}
 
 	return nil
+}
+
+func (u *User) GetRole() string {
+	return u.Role.String()
 }
 
 func (u *User) HashPassword(password string) error {
@@ -72,7 +77,7 @@ func GetUserByEmail(email string) (User, error) {
 
 	result := config.DB.Where("email = ?", email).First(&user)
 	if result.Error != nil {
-		return User{}, result.Error
+		return User{}, errors.New("user with email " + email + " not found")
 	}
 
 	return user, nil
