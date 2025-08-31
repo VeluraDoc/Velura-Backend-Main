@@ -1,8 +1,8 @@
 dev:
-	gin --appPort 5000 --port 3000 run cmd/main.go
+	gin --appPort 5000 --port 3000 --build ./cmd --path . --bin ./bin/dev --all
 
 start:
-	go run cmd/main.go
+	go run ./cmd/main.go
 
 build:
-	go build -o bin/app cmd/main.go
+	go build -o ./bin/production ./cmd
