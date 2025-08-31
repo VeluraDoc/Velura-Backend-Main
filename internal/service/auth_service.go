@@ -22,7 +22,7 @@ func GenerateToken(id string) (string, error) {
 	return token.SignedString(jwtSecretKey)
 }
 
-func VerifyToken(tokenString string) (map[string]interface{}, error) {
+func VerifyToken(tokenString string) (jwt.MapClaims, error) {
 	var jwtSecretKey = []byte(config.GetEnv("JWT_SECRET"))
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
@@ -34,9 +34,7 @@ func VerifyToken(tokenString string) (map[string]interface{}, error) {
 	}
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		userData := make(map[string]interface{})
-		userData["id"] = claims["id"]
-		return userData, nil
+		return claims, nil
 	}
 
 	return nil, errors.New("invalid token")

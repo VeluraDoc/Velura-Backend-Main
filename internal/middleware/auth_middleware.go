@@ -4,14 +4,12 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/VeluraDoc/Velura-Backend-Main/config"
 	"github.com/VeluraDoc/Velura-Backend-Main/internal/model"
-	"github.com/dgrijalva/jwt-go"
+	"github.com/VeluraDoc/Velura-Backend-Main/internal/service"
 	"github.com/gin-gonic/gin"
 )
 
 func AuthMiddleware() gin.HandlerFunc {
-	var jwtSecretKey = []byte(config.GetEnv("JWT_SECRET"))
 
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
@@ -31,17 +29,12 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		parsedToken := bearerToken[1]
 
-		token, err := jwt.Parse(parsedToken, func(token *jwt.Token) (interface{}, error) {
-			return []byte(jwtSecretKey), nil
-		})
-
-		if err != nil || !token.Valid {
+		claims, err := service.VerifyToken(parsedToken)
+		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid or expired token"})
 			c.Abort()
 			return
 		}
-
-		claims, _ := token.Claims.(jwt.MapClaims)
 
 		user, err := model.GetUserByID(claims["id"].(string))
 
