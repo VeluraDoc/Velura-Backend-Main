@@ -10,9 +10,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var jwtSecretKey = []byte(config.GetEnv("JWT_SECRET"))
-
 func AuthMiddleware() gin.HandlerFunc {
+	var jwtSecretKey = []byte(config.GetEnv("JWT_SECRET"))
+
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 
