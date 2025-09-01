@@ -26,6 +26,7 @@ import (
 
 func main() {
 	config.LoadEnv()
+	gin.SetMode(config.GetEnv("GIN_MODE"))
 	db := config.ConnectToDB()
 
 	if err := db.AutoMigrate(&user_model.User{}); err != nil {
