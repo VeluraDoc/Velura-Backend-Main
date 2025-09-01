@@ -1,15 +1,14 @@
-package handler
+package auth
 
 import (
 	"net/http"
 
-	"github.com/VeluraDoc/Velura-Backend-Main/internal/model"
-	"github.com/VeluraDoc/Velura-Backend-Main/internal/service"
+	user_model "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/model"
 	"github.com/gin-gonic/gin"
 )
 
 func SignUpHandler(c *gin.Context) {
-	var user model.User
+	var user user_model.User
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid input"})
@@ -31,7 +30,7 @@ func SignUpHandler(c *gin.Context) {
 		return
 	}
 
-	token, err := service.GenerateToken(user.ID)
+	token, err := GenerateToken(user.ID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to generate token"})
 		return
@@ -44,7 +43,7 @@ func SignUpHandler(c *gin.Context) {
 }
 
 func LoginHandler(c *gin.Context) {
-	var inputUser model.User
+	var inputUser user_model.User
 
 	if err := c.ShouldBindJSON(&inputUser); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid input"})
@@ -56,9 +55,9 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 
-	var user model.User
+	var user user_model.User
 	var err error
-	if user, err = model.GetUserByEmail(inputUser.Email); err != nil {
+	if user, err = user_model.GetUserByEmail(inputUser.Email); err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid email or password"})
 		return
 	}
@@ -68,7 +67,7 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 
-	token, err := service.GenerateToken(user.ID)
+	token, err := GenerateToken(user.ID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to generate token"})
 		return

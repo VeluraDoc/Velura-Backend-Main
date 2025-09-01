@@ -1,9 +1,9 @@
-package model
+package user_model
 
 import (
 	"errors"
 
-	"github.com/VeluraDoc/Velura-Backend-Main/config"
+	"github.com/VeluraDoc/Velura-Backend-Main/internal/config"
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
