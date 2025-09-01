@@ -15,7 +15,7 @@ var validate = validator.New()
 type User struct {
 	ID       string `json:"id" gorm:"primaryKey;type:uuid"`
 	Email    string `json:"email" gorm:"unique;index;not null" validate:"required,email"`
-	Password string `json:"password" gorm:"not null" validate:"required,min=8"`
+	Password string `json:"-" gorm:"not null" validate:"required,min=8"`
 	Role     Role   `json:"role" gorm:"type:int;not null;default:2"`
 }
 
