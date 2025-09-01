@@ -69,3 +69,32 @@ func RegisterUser(dto user_dto.UserRequestDTO) (string, error) {
 
 	return token, nil
 }
+
+func SignInUser(dto user_dto.UserRequestDTO) (string, error) {
+
+	if err := dto.Validate(); err != nil {
+		return "", err
+	}
+
+	inputUser := user_model.User{
+		Email:    dto.Email,
+		Password: dto.Password,
+	}
+
+	var user user_model.User
+	var err error
+	if user, err = user_model.GetUserByEmail(inputUser.Email); err != nil {
+		return "", errors.New("invalid email or password")
+	}
+
+	if !user.CheckPassword(inputUser.Password) {
+		return "", errors.New("invalid email or password")
+	}
+
+	token, err := GenerateToken(user.ID)
+	if err != nil {
+		return "", errors.New("failed to generate token")
+	}
+
+	return token, nil
+}

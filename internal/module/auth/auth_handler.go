@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	user_dto "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/dto"
-	user_model "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/model"
 	"github.com/gin-gonic/gin"
 )
 
@@ -36,31 +35,9 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 
-	if err := dto.Validate(); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	inputUser := user_model.User{
-		Email:    dto.Email,
-		Password: dto.Password,
-	}
-
-	var user user_model.User
-	var err error
-	if user, err = user_model.GetUserByEmail(inputUser.Email); err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid email or password"})
-		return
-	}
-
-	if !user.CheckPassword(inputUser.Password) {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid email or password"})
-		return
-	}
-
-	token, err := GenerateToken(user.ID)
+	token, err := SignInUser(dto)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to generate token"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 		return
 	}
 
