@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/VeluraDoc/Velura-Backend-Main/internal/module/auth"
+	user_usecase "github.com/VeluraDoc/Velura-Backend-Main/internal/module/auth/usecase"
 	user_model "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/model"
 	"github.com/gin-gonic/gin"
 )
@@ -29,7 +29,7 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		parsedToken := bearerToken[1]
 
-		claims, err := auth.VerifyToken(parsedToken)
+		claims, err := user_usecase.VerifyToken(parsedToken)
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid or expired token"})
 			c.Abort()
