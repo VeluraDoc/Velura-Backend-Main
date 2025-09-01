@@ -5,6 +5,7 @@ import (
 
 	user_dto "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/dto"
 	user_model "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/model"
+	user_repository "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/repository"
 )
 
 func RegisterUser(dto user_dto.UserRequestDTO) (string, error) {
@@ -23,7 +24,9 @@ func RegisterUser(dto user_dto.UserRequestDTO) (string, error) {
 		return "", errors.New("failed to hash password")
 	}
 
-	if err := user.Save(); err != nil {
+	var userRepo user_repository.UserRepository = user_repository.GetRepository()
+
+	if err := userRepo.Save(&user); err != nil {
 		return "", errors.New("failed to save user")
 	}
 

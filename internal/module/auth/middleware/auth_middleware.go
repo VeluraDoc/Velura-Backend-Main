@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	user_usecase "github.com/VeluraDoc/Velura-Backend-Main/internal/module/auth/usecase"
-	user_model "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/model"
+	user_repository "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/repository"
 	"github.com/gin-gonic/gin"
 )
 
@@ -36,7 +36,9 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		user, err := user_model.GetUserByID(claims["id"].(string))
+		var userRepo user_repository.UserRepository = user_repository.GetRepository()
+
+		user, err := userRepo.FindByID(claims["id"].(string))
 
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "user not found"})

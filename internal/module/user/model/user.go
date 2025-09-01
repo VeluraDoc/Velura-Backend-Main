@@ -3,7 +3,6 @@ package user_model
 import (
 	"errors"
 
-	"github.com/VeluraDoc/Velura-Backend-Main/internal/config"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
@@ -41,44 +40,4 @@ func (u *User) CheckPassword(password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
 
 	return err == nil
-}
-
-func (u *User) Save() error {
-	result := config.DB.Save(u)
-	if result.Error != nil {
-		return result.Error
-	}
-
-	return nil
-}
-
-func (u *User) Delete() error {
-	result := config.DB.Delete(&User{}, "id = ?", u.ID)
-	if result.Error != nil {
-		return result.Error
-	}
-
-	return nil
-}
-
-func GetUserByEmail(email string) (User, error) {
-	var user User
-
-	result := config.DB.Where("email = ?", email).First(&user)
-	if result.Error != nil {
-		return User{}, errors.New("user with email " + email + " not found")
-	}
-
-	return user, nil
-}
-
-func GetUserByID(id string) (User, error) {
-	var user User
-
-	result := config.DB.Where("id = ?", id).First(&user)
-	if result.Error != nil {
-		return User{}, errors.New("user with id " + id + " not found")
-	}
-
-	return user, nil
 }

@@ -5,6 +5,7 @@ import (
 
 	user_dto "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/dto"
 	user_model "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/model"
+	user_repository "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/repository"
 )
 
 func SignInUser(dto user_dto.UserRequestDTO) (string, error) {
@@ -18,9 +19,11 @@ func SignInUser(dto user_dto.UserRequestDTO) (string, error) {
 		Password: dto.Password,
 	}
 
-	var user user_model.User
+	var userRepo user_repository.UserRepository = user_repository.GetRepository()
+
+	var user *user_model.User
 	var err error
-	if user, err = user_model.GetUserByEmail(inputUser.Email); err != nil {
+	if user, err = userRepo.FindByEmail(inputUser.Email); err != nil {
 		return "", errors.New("invalid email or password")
 	}
 
