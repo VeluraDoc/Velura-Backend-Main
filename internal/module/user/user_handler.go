@@ -3,6 +3,8 @@ package user
 import (
 	"net/http"
 
+	user_dto "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/dto"
+	user_model "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/model"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,5 +16,11 @@ func GetMe(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, user)
+	userStruct := user.(*user_model.User)
+
+	c.JSON(http.StatusOK, user_dto.UserResponseDTO{
+		Email: userStruct.Email,
+		ID:    userStruct.ID,
+		Role:  userStruct.Role.String(),
+	})
 }
