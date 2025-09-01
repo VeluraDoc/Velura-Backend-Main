@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/VeluraDoc/Velura-Backend-Main/config"
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 func GenerateToken(id string) (string, error) {
