@@ -1,4 +1,4 @@
-package auth
+package auth_handler
 
 import (
 	"net/http"
@@ -8,27 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SignUpHandler(c *gin.Context) {
-	var dto user_dto.UserRequestDTO
-
-	if err := c.ShouldBindJSON(&dto); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid input"})
-		return
-	}
-
-	token, err := user_usecase.RegisterUser(dto)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"message": "user registered successfully",
-		"token":   token,
-	})
-}
-
-func LoginHandler(c *gin.Context) {
+func Login(c *gin.Context) {
 	var dto user_dto.UserRequestDTO
 
 	if err := c.ShouldBindJSON(&dto); err != nil {
