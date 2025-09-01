@@ -16,29 +16,9 @@ func SignUpHandler(c *gin.Context) {
 		return
 	}
 
-	if err := dto.Validate(); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	user := user_model.User{
-		Email:    dto.Email,
-		Password: dto.Password,
-	}
-
-	if err := user.HashPassword(user.Password); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to hash password"})
-		return
-	}
-
-	if err := user.Save(); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to save user"})
-		return
-	}
-
-	token, err := GenerateToken(user.ID)
+	token, err := RegisterUser(dto)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to generate token"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
