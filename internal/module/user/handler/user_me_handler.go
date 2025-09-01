@@ -5,22 +5,23 @@ import (
 
 	user_dto "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/dto"
 	user_model "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/model"
+	shared_dto "github.com/VeluraDoc/Velura-Backend-Main/internal/shared/dto"
 	"github.com/gin-gonic/gin"
 )
 
 // GetProfile godoc
 // @Summary      Get current user profile
 // @Description  Returns profile info of authenticated user
-// @Tags         user
+// @Tags         User
 // @Produce      json
 // @Security     BearerAuth
 // @Success      200  {object}  user_dto.UserResponseDTO
-// @Failure      401  {string}  string "unauthorized"
+// @Failure      401  {object}  shared_dto.ErrorResponseDto
 // @Router       /user/me [get]
 func GetMe(c *gin.Context) {
 	user, exists := c.Get("user")
 	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "user not found"})
+		c.JSON(http.StatusUnauthorized, shared_dto.ErrorResponseDto{Error: "user not found"})
 		c.Abort()
 		return
 	}
