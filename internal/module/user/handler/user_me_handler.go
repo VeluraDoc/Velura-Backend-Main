@@ -14,8 +14,8 @@ import (
 // @Tags         user
 // @Produce      json
 // @Security     BearerAuth
-// @Success      200  {object}  User
-// @Failure      401  {object}  ErrorResponse
+// @Success      200  {object}  user_dto.UserResponseDTO
+// @Failure      401  {string}  string "unauthorized"
 // @Router       /user/me [get]
 func GetMe(c *gin.Context) {
 	user, exists := c.Get("user")

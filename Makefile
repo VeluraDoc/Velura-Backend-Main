@@ -1,13 +1,9 @@
 SWAG_MAIN=cmd/main.go
 SWAG_OUT=docs
 
-.PHONY: doc
+.PHONY: doc dev start build
 doc:
-	swag init --parseDependency --parseInternal \
-	  -g $(SWAG_MAIN) \
-	  --dir cmd \
-	  --dir internal \
-	  -o $(SWAG_OUT)
+	swag init -g ./$(SWAG_MAIN) -o ./$(SWAG_OUT) --parseDependency --parseInternal
 
 dev:
 	gin --appPort 5000 --port 3000 --build ./cmd --path . --bin ./bin/dev --all
