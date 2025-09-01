@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/VeluraDoc/Velura-Backend-Main/internal/model"
 	"github.com/VeluraDoc/Velura-Backend-Main/internal/module/auth"
+	user_model "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/model"
 	"github.com/gin-gonic/gin"
 )
 
@@ -36,7 +36,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		user, err := model.GetUserByID(claims["id"].(string))
+		user, err := user_model.GetUserByID(claims["id"].(string))
 
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "user not found"})

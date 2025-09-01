@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"slices"
 
-	"github.com/VeluraDoc/Velura-Backend-Main/internal/model"
+	user_model "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/model"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,7 +17,7 @@ func RoleMiddleware(roles ...string) gin.HandlerFunc {
 			return
 		}
 
-		userRole := user.(*model.User).GetRole()
+		userRole := user.(*user_model.User).GetRole()
 
 		if slices.Contains(roles, userRole) {
 			c.Next()
