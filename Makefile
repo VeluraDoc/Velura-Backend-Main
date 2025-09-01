@@ -13,3 +13,6 @@ start:
 
 build:
 	go build -o ./bin/production ./cmd
+
+test:
+	go test ./...
