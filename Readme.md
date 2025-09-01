@@ -61,7 +61,7 @@ cd Velura-Backend-Main
 go mod tidy
 
 # Generate swagger docs
-swag init
+make doc
 
 # Run with Docker
 docker-compose up --build
@@ -89,7 +89,7 @@ This will:
 | GET    | `/user/me`      | Get current user profile   | ✅   |
 | POST   | `/convert/pdf`  | Convert PDF → Word (.docx) | ✅   |
 
-> Full API documentation available at:  
+> Full API documentation available at:
 > 👉 **`/swagger/index.html`**
 
 ---
