@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/VeluraDoc/Velura-Backend-Main/config"
+	"github.com/VeluraDoc/Velura-Backend-Main/internal/config"
 	"github.com/VeluraDoc/Velura-Backend-Main/internal/handler"
 	"github.com/VeluraDoc/Velura-Backend-Main/internal/middleware"
 	"github.com/VeluraDoc/Velura-Backend-Main/internal/model"
