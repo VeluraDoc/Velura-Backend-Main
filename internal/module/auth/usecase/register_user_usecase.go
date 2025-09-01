@@ -1,4 +1,4 @@
-package user_usecase
+package auth_usecase
 
 import (
 	"errors"
