@@ -1,10 +1,9 @@
-package handler
+package auth
 
 import (
 	"net/http"
 
 	"github.com/VeluraDoc/Velura-Backend-Main/internal/model"
-	"github.com/VeluraDoc/Velura-Backend-Main/internal/service"
 	"github.com/gin-gonic/gin"
 )
 
@@ -31,7 +30,7 @@ func SignUpHandler(c *gin.Context) {
 		return
 	}
 
-	token, err := service.GenerateToken(user.ID)
+	token, err := GenerateToken(user.ID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to generate token"})
 		return
@@ -68,7 +67,7 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 
-	token, err := service.GenerateToken(user.ID)
+	token, err := GenerateToken(user.ID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to generate token"})
 		return

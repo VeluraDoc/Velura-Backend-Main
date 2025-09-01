@@ -1,11 +1,11 @@
-package middleware
+package auth_middleware
 
 import (
 	"net/http"
 	"strings"
 
 	"github.com/VeluraDoc/Velura-Backend-Main/internal/model"
-	"github.com/VeluraDoc/Velura-Backend-Main/internal/service"
+	"github.com/VeluraDoc/Velura-Backend-Main/internal/module/auth"
 	"github.com/gin-gonic/gin"
 )
 
@@ -29,7 +29,7 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		parsedToken := bearerToken[1]
 
-		claims, err := service.VerifyToken(parsedToken)
+		claims, err := auth.VerifyToken(parsedToken)
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid or expired token"})
 			c.Abort()
