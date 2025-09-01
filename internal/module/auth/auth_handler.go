@@ -3,21 +3,27 @@ package auth
 import (
 	"net/http"
 
+	user_dto "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/dto"
 	user_model "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/model"
 	"github.com/gin-gonic/gin"
 )
 
 func SignUpHandler(c *gin.Context) {
-	var user user_model.User
+	var dto user_dto.UserRequestDTO
 
-	if err := c.ShouldBindJSON(&user); err != nil {
+	if err := c.ShouldBindJSON(&dto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid input"})
 		return
 	}
 
-	if err := user.Validate(); err != nil {
+	if err := dto.Validate(); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
+	}
+
+	user := user_model.User{
+		Email:    dto.Email,
+		Password: dto.Password,
 	}
 
 	if err := user.HashPassword(user.Password); err != nil {
@@ -43,16 +49,21 @@ func SignUpHandler(c *gin.Context) {
 }
 
 func LoginHandler(c *gin.Context) {
-	var inputUser user_model.User
+	var dto user_dto.UserRequestDTO
 
-	if err := c.ShouldBindJSON(&inputUser); err != nil {
+	if err := c.ShouldBindJSON(&dto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid input"})
 		return
 	}
 
-	if err := inputUser.Validate(); err != nil {
+	if err := dto.Validate(); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
+	}
+
+	inputUser := user_model.User{
+		Email:    dto.Email,
+		Password: dto.Password,
 	}
 
 	var user user_model.User

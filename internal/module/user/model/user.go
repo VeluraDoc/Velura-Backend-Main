@@ -4,31 +4,20 @@ import (
 	"errors"
 
 	"github.com/VeluraDoc/Velura-Backend-Main/internal/config"
-	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
-var validate = validator.New()
-
 type User struct {
 	ID       string `json:"id" gorm:"primaryKey;type:uuid"`
-	Email    string `json:"email" gorm:"unique;index;not null" validate:"required,email"`
-	Password string `json:"-" gorm:"not null" validate:"required,min=8"`
+	Email    string `json:"email" gorm:"unique;index;not null"`
+	Password string `json:"-" gorm:"not null"`
 	Role     Role   `json:"role" gorm:"type:int;not null;default:2"`
 }
 
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 	u.ID = uuid.New().String()
-	return nil
-}
-
-func (u *User) Validate() error {
-	if err := validate.Struct(u); err != nil {
-		return err
-	}
-
 	return nil
 }
 
