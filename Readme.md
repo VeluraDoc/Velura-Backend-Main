@@ -101,7 +101,7 @@ Auto-generated with [swaggo/swag](https://github.com/swaggo/swag).
 Run:
 
 ```bash
-swag init
+swag init --parseDependency --parseInternal -g cmd/main.go -o docs
 ```
 
 Then visit:

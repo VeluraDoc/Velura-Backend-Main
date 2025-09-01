@@ -22,8 +22,27 @@ import (
 	user_router "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user"
 	user_model "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/model"
 	"github.com/gin-gonic/gin"
+
+	_ "github.com/VeluraDoc/Velura-Backend-Main/docs"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+// @title           Velura Pdf-To-Word API Documentation
+// @version         1.0
+// @description     API documentation for Velura Pdf-To-Word.
+// @BasePath        /
+
+// @contact.name    Velura Team
+// @contact.url     https://github.com/VeluraOpenSource
+
+// @license.name    Apache 2.0
+// @license.url     https://www.apache.org/licenses/LICENSE-2.0
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Bearer <token>
 func main() {
 	config.LoadEnv()
 	gin.SetMode(config.GetEnv("GIN_MODE"))
@@ -42,6 +61,8 @@ func main() {
 
 	auth_router.RegisterRoutes(r.Group("/auth"))
 	user_router.RegisterRoutes(r.Group("/user"))
+
+	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	r.Run(":" + port)
 }
