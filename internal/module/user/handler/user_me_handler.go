@@ -9,7 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetProfile godoc
 // @Summary      Get current user profile
 // @Description  Returns profile info of authenticated user
 // @Tags         User
