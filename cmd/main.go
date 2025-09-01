@@ -4,9 +4,8 @@ import (
 	"log"
 
 	"github.com/VeluraDoc/Velura-Backend-Main/internal/config"
-	auth_handler "github.com/VeluraDoc/Velura-Backend-Main/internal/module/auth/handler"
-	auth_middleware "github.com/VeluraDoc/Velura-Backend-Main/internal/module/auth/middleware"
-	user_handler "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/handler"
+	auth_router "github.com/VeluraDoc/Velura-Backend-Main/internal/module/auth"
+	user_router "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user"
 	user_model "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/model"
 	"github.com/gin-gonic/gin"
 )
@@ -26,11 +25,8 @@ func main() {
 
 	r := gin.Default()
 
-	r.POST("/auth/sign-up", auth_handler.SignUp)
-	r.POST("/auth/login", auth_handler.Login)
-
-	protectedUserRoutes := r.Group("/user").Use(auth_middleware.AuthMiddleware())
-	protectedUserRoutes.GET("/me", user_handler.GetMe)
+	auth_router.RegisterRoutes(r.Group("/auth"))
+	user_router.RegisterRoutes(r.Group("/user"))
 
 	r.Run(":" + port)
 }
