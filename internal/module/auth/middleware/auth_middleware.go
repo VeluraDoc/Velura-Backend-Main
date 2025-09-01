@@ -6,6 +6,7 @@ import (
 
 	user_usecase "github.com/VeluraDoc/Velura-Backend-Main/internal/module/auth/usecase"
 	user_repository "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/repository"
+	shared_dto "github.com/VeluraDoc/Velura-Backend-Main/internal/shared/dto"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,14 +16,14 @@ func AuthMiddleware() gin.HandlerFunc {
 		authHeader := c.GetHeader("Authorization")
 
 		if authHeader == "" {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "authorization header is required"})
+			c.JSON(http.StatusUnauthorized, shared_dto.ErrorResponseDto{Error: "authorization header is required"})
 			c.Abort()
 			return
 		}
 
 		bearerToken := strings.Split(authHeader, " ")
 		if len(bearerToken) != 2 {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid token format"})
+			c.JSON(http.StatusUnauthorized, shared_dto.ErrorResponseDto{Error: "invalid token format"})
 			c.Abort()
 			return
 		}
@@ -31,7 +32,7 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		claims, err := user_usecase.VerifyToken(parsedToken)
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid or expired token"})
+			c.JSON(http.StatusUnauthorized, shared_dto.ErrorResponseDto{Error: "invalid or expired token"})
 			c.Abort()
 			return
 		}
@@ -41,7 +42,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		user, err := userRepo.FindByID(claims["id"].(string))
 
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "user not found"})
+			c.JSON(http.StatusUnauthorized, shared_dto.ErrorResponseDto{Error: "user not found"})
 			c.Abort()
 			return
 		}
