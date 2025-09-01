@@ -50,15 +50,20 @@ The **core feature** of Velura is **PDF → Word conversion** 📝⚡, with secu
   go install github.com/swaggo/swag/cmd/swag@latest
   ```
 
-### Setup
+## Setup
 
 ```bash
 # Clone the repo
 git clone https://github.com/VeluraDoc/Velura-Backend-Main.git
 cd Velura-Backend-Main
 
-# Install dependencies
+# Install Go dependencies
 go mod tidy
+
+# (Optional) Setup Python env for PDF → DOCX conversion
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 
 # Generate swagger docs
 make doc
@@ -67,7 +72,7 @@ make doc
 docker-compose up --build
 ```
 
-### Local Run
+## Local Run (without Docker)
 
 ```bash
 make dev
@@ -78,7 +83,32 @@ This will:
 1. Generate Swagger docs
 2. Run the server on `http://localhost:8080`
 
----
+## PDF → DOCX Conversion
+
+This project uses a small Python script (`scripts/convert_pdf.py`) with [pdf2docx](https://pypi.org/project/pdf2docx/) for PDF → Word conversion.
+
+- Make sure Python ≥3.9 is installed.
+- Install dependencies inside a virtualenv:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+- Test conversion manually:
+
+```bash
+python scripts/convert_pdf.py -i ./data/input.pdf -o ./data/output.docx
+```
+
+The Go code calls this script automatically using `exec.Command`.
+
+## Requirements
+
+- Go 1.22+
+- Python 3.9+
+- Docker & Docker Compose
 
 ## 🔑 API Endpoints (Highlights)
 
