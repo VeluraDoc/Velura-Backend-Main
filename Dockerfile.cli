@@ -1,0 +1,18 @@
+FROM golang:tip-alpine3.22 AS build
+WORKDIR /app
+COPY ./go.mod ./go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 go build -o /velura-cli ./cmd/cli
+
+FROM python:3.11-slim
+RUN pip install --no-cache-dir pdf2docx
+WORKDIR /app
+COPY ./tools/pdf_convertor.py /app/tools/pdf_convertor.py
+COPY --from=build /velura-cli /usr/local/bin/velura-cli
+
+RUN set -eu; \
+    echo "PORT=8080"        > /app/.env; \
+    echo "GIN_MODE=release" >> /app/.env
+
+ENTRYPOINT ["velura-cli"]

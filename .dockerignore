@@ -1,0 +1,13 @@
+.env.example
+Readme.md
+NOTICE
+LICENSE
+Makefile
+*.pyc
+
+.git/
+bin/
+docs/
+venv/
+__pycache__/
+.vscode/

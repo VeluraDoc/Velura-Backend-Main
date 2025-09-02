@@ -20,8 +20,6 @@ import (
 
 	"github.com/VeluraOpenSource/Velura_Documents_Service/internal/config"
 	pdf_usecase "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/pdf/usecase"
-
-	_ "github.com/VeluraOpenSource/Velura_Documents_Service/docs"
 )
 
 var (
