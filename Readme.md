@@ -35,14 +35,17 @@ Planned: Word → PDF, CSV → PDF, PDF → CSV, and more.
 
 ### Prerequisites
 
-- Go 1.21+
-- Docker & Docker Compose
-- Python ≥3.9 (for `pdf2docx` backend, optional)
-- `swag` CLI for Swagger:
+Make sure you have the following installed:
 
-```bash
-go install github.com/swaggo/swag/cmd/swag@latest
-```
+- [Go 1.21+](https://go.dev/dl/)
+- [Docker](https://www.docker.com/)
+- [Python ≥3.9](https://www.python.org/) (only needed if using the `pdf2docx` backend locally)
+- [GNU Make](https://www.gnu.org/software/make/) (for running `make` commands)
+- `swag` CLI (for generating Swagger docs):
+
+  ```bash
+  go install github.com/swaggo/swag/cmd/swag@latest
+  ```
 
 ### Setup
 
@@ -61,29 +64,31 @@ pip install -r requirements.txt
 
 # Generate Swagger docs
 make doc
-
-# Run with Docker
-docker-compose up --build
 ```
 
 ### Local Run
 
 ```bash
-make dev
+# To run cli version
+make start-cli
+
+# To run api version
+make start-api
+
+# Or you can simply run the cli version using docker
+# Your pdf file must be in /data dir
+docker build -f Dockerfile.cli -t velura-cli .
+docker run --rm -v "$PWD/data:/data" velura-cli -i /data/{file}.pdf -o /data/{file}.docx
+
+# Example:
+docker run --rm -v "$PWD/data:/data" velura-cli -i /data/input.pdf -o /data/output.docx
 ```
 
-This will:
+- By default, the CLI container generates a basic `.env` file inside `/app`
+- You can mount your own `.env` using `-v "$PWD/.env:/app/.env"` if needed
 
-1. Generate Swagger docs
-2. Run the server on `http://localhost:8080`
-
----
-
-## 🧪 Tests (Planned)
-
-- Unit tests for conversion usecases
-- Integration tests for `/convert/*` endpoints
-- Output validation (e.g., Word file opens correctly)
+- CLI runs as a one-shot container for direct conversions
+- API runs persistently at: `http://localhost:8080`
 
 ---
 
@@ -93,21 +98,9 @@ This will:
 - **Framework**: Gin
 - **Conversion Backends**:
   - PDF → Word: Python `pdf2docx` (default)
-  - Planned: LibreOffice headless, custom parsers
 - **Docs**: Swagger (swaggo)
 - **Infra**: Docker & Docker Compose
 - **Build**: Makefile automation
-
----
-
-## 📌 Roadmap
-
-- [ ] Add Word → PDF conversion
-- [ ] Add CSV ↔ PDF conversions
-- [ ] Improve error handling & validation
-- [ ] Queue system for large conversions
-- [ ] Multi-language support (UTF-8/RTL docs)
-- [ ] CI/CD with GitHub Actions
 
 ---
 
