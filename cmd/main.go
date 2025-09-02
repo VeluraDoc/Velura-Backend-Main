@@ -15,12 +15,7 @@
 package main
 
 import (
-	"log"
-
 	"github.com/VeluraOpenSource/Velura_Documents_Service/internal/config"
-	auth_router "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/auth"
-	user_router "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/user"
-	user_model "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/user/model"
 	"github.com/gin-gonic/gin"
 
 	_ "github.com/VeluraOpenSource/Velura_Documents_Service/docs"
@@ -28,9 +23,9 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-// @title           Velura Pdf-To-Word API Documentation
+// @title           Velura_Documents_Service API Documentation
 // @version         1.0
-// @description     API documentation for Velura Pdf-To-Word.
+// @description     API documentation for Velura_Documents_Service.
 // @BasePath        /
 
 // @contact.name    Velura Team
@@ -46,11 +41,6 @@ import (
 func main() {
 	config.LoadEnv()
 	gin.SetMode(config.GetEnv("GIN_MODE"))
-	db := config.ConnectToDB()
-
-	if err := db.AutoMigrate(&user_model.User{}); err != nil {
-		log.Fatal("Error during migration: ", err)
-	}
 
 	port := "8080"
 	if envPort := config.GetEnv("PORT"); envPort != "" {
@@ -58,9 +48,6 @@ func main() {
 	}
 
 	r := gin.Default()
-
-	auth_router.RegisterRoutes(r.Group("/auth"))
-	user_router.RegisterRoutes(r.Group("/user"))
 
 	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
