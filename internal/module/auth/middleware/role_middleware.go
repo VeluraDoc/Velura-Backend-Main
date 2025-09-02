@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"slices"
 
-	user_model "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/model"
-	shared_dto "github.com/VeluraDoc/Velura-Backend-Main/internal/shared/dto"
+	user_model "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/user/model"
+	shared_dto "github.com/VeluraOpenSource/Velura_Documents_Service/internal/shared/dto"
 	"github.com/gin-gonic/gin"
 )
 

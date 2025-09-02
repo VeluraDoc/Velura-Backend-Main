@@ -1,4 +1,4 @@
-module github.com/VeluraDoc/Velura-Backend-Main
+module github.com/VeluraOpenSource/Velura_Documents_Service
 
 go 1.25.0
 

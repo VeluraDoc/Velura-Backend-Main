@@ -1,7 +1,7 @@
 package user_repository
 
 import (
-	user_model "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/model"
+	user_model "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/user/model"
 )
 
 type UserRepository interface {

@@ -17,13 +17,13 @@ package main
 import (
 	"log"
 
-	"github.com/VeluraDoc/Velura-Backend-Main/internal/config"
-	auth_router "github.com/VeluraDoc/Velura-Backend-Main/internal/module/auth"
-	user_router "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user"
-	user_model "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/model"
+	"github.com/VeluraOpenSource/Velura_Documents_Service/internal/config"
+	auth_router "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/auth"
+	user_router "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/user"
+	user_model "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/user/model"
 	"github.com/gin-gonic/gin"
 
-	_ "github.com/VeluraDoc/Velura-Backend-Main/docs"
+	_ "github.com/VeluraOpenSource/Velura_Documents_Service/docs"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )

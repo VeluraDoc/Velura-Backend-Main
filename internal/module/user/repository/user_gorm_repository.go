@@ -4,8 +4,8 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/VeluraDoc/Velura-Backend-Main/internal/config"
-	user_model "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/model"
+	"github.com/VeluraOpenSource/Velura_Documents_Service/internal/config"
+	user_model "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/user/model"
 )
 
 type GormUserRepository struct{}

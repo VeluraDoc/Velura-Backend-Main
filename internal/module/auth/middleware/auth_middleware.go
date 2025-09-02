@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"strings"
 
-	auth_usecase "github.com/VeluraDoc/Velura-Backend-Main/internal/module/auth/usecase"
-	user_repository "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/repository"
-	shared_dto "github.com/VeluraDoc/Velura-Backend-Main/internal/shared/dto"
+	auth_usecase "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/auth/usecase"
+	user_repository "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/user/repository"
+	shared_dto "github.com/VeluraOpenSource/Velura_Documents_Service/internal/shared/dto"
 	"github.com/gin-gonic/gin"
 )
 

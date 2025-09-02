@@ -1,7 +1,7 @@
 package auth_router
 
 import (
-	auth_handler "github.com/VeluraDoc/Velura-Backend-Main/internal/module/auth/handler"
+	auth_handler "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/auth/handler"
 	"github.com/gin-gonic/gin"
 )
 

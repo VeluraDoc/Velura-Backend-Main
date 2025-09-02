@@ -3,7 +3,7 @@ package auth_usecase
 import (
 	"errors"
 
-	"github.com/VeluraDoc/Velura-Backend-Main/internal/config"
+	"github.com/VeluraOpenSource/Velura_Documents_Service/internal/config"
 	"github.com/golang-jwt/jwt/v5"
 )
 

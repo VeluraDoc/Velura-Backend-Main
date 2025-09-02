@@ -3,9 +3,9 @@ package auth_usecase
 import (
 	"errors"
 
-	user_dto "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/dto"
-	user_model "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/model"
-	user_repository "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/repository"
+	user_dto "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/user/dto"
+	user_model "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/user/model"
+	user_repository "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/user/repository"
 )
 
 func RegisterUser(dto user_dto.UserRequestDTO) (string, error) {

@@ -3,10 +3,10 @@ package auth_handler
 import (
 	"net/http"
 
-	auth_dto "github.com/VeluraDoc/Velura-Backend-Main/internal/module/auth/dto"
-	auth_usecase "github.com/VeluraDoc/Velura-Backend-Main/internal/module/auth/usecase"
-	user_dto "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/dto"
-	shared_dto "github.com/VeluraDoc/Velura-Backend-Main/internal/shared/dto"
+	auth_dto "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/auth/dto"
+	auth_usecase "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/auth/usecase"
+	user_dto "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/user/dto"
+	shared_dto "github.com/VeluraOpenSource/Velura_Documents_Service/internal/shared/dto"
 	"github.com/gin-gonic/gin"
 )
 

@@ -54,7 +54,7 @@ The **core feature** of Velura is **PDF → Word conversion** 📝⚡, with secu
 
 ```bash
 # Clone the repo
-git clone https://github.com/VeluraDoc/Velura-Backend-Main.git
+git clone https://github.com/VeluraOpenSource/Velura_Documents_Service.git
 cd Velura-Backend-Main
 
 # Install Go dependencies

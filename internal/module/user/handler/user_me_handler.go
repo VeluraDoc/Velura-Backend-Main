@@ -3,9 +3,9 @@ package user_handler
 import (
 	"net/http"
 
-	user_dto "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/dto"
-	user_model "github.com/VeluraDoc/Velura-Backend-Main/internal/module/user/model"
-	shared_dto "github.com/VeluraDoc/Velura-Backend-Main/internal/shared/dto"
+	user_dto "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/user/dto"
+	user_model "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/user/model"
+	shared_dto "github.com/VeluraOpenSource/Velura_Documents_Service/internal/shared/dto"
 	"github.com/gin-gonic/gin"
 )
 
