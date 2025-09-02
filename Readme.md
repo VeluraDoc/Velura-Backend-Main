@@ -47,48 +47,80 @@ Make sure you have the following installed:
   go install github.com/swaggo/swag/cmd/swag@latest
   ```
 
-### Setup
+---
+
+## 🧪 Usage
+
+### 🟢 API Server
 
 ```bash
-# Clone the repo
+# Clone and setup project
 git clone https://github.com/VeluraOpenSource/Velura_Documents_Service.git
 cd Velura_Documents_Service
-
-# Install Go dependencies
 go mod tidy
-
-# (Optional) Setup Python env for PDF → DOCX conversion
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
 
 # Generate Swagger docs
 make doc
-```
 
-### Local Run
-
-```bash
-# To run cli version
-make start-cli
-
-# To run api version
+# Start API server
 make start-api
 
-# Or you can simply run the cli version using docker
-# Your pdf file must be in /data dir
-docker build -f Dockerfile.cli -t velura-cli .
-docker run --rm -v "$PWD/data:/data" velura-cli -i /data/{file}.pdf -o /data/{file}.docx
+# API will be running on:
+http://localhost:8080
+```
 
-# Example:
+---
+
+### ⚙️ CLI Mode
+
+```bash
+# Build CLI using docker
+docker build -f Dockerfile.cli -t velura-cli .
+
+# Run CLI to convert a file
 docker run --rm -v "$PWD/data:/data" velura-cli -i /data/input.pdf -o /data/output.docx
 ```
 
-- By default, the CLI container generates a basic `.env` file inside `/app`
-- You can mount your own `.env` using `-v "$PWD/.env:/app/.env"` if needed
+- Your file must be in the `data/` directory.
+- The CLI container automatically generates a basic `.env` file.
+- You can mount your own `.env` using:
 
-- CLI runs as a one-shot container for direct conversions
-- API runs persistently at: `http://localhost:8080`
+  ```bash
+  -v "$PWD/.env:/app/.env"
+  ```
+
+---
+
+### 📦 Using as a Go Package
+
+To import and use the core functionality in your own Go project:
+
+```bash
+go get github.com/VeluraOpenSource/Velura_Documents_Service
+```
+
+Then in your code:
+
+```go
+import "github.com/VeluraOpenSource/Velura_Documents_Service/internal/usecase"
+
+// Use conversion usecase here
+```
+
+> 🐍 **Note for PDF → DOCX:**
+> The Go package uses a Python backend (via subprocess) for PDF → Word conversion.
+> To enable it, you must:
+
+1. Have **Python ≥3.9** installed
+2. Install the required dependency:
+
+```bash
+pip install pdf2docx
+```
+
+3. Make sure `tools/pdf_convertor.py` is accessible via relative path
+
+4. Set environment variables (or `.env` file) to define CLI behavior
 
 ---
 
