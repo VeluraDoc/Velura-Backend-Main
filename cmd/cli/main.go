@@ -23,15 +23,14 @@ import (
 )
 
 var (
-	inputFlag  = flag.String("i", "", "input *PDF")
-	outputFlag = flag.String("o", "", "output *DOCX")
+	inputFlag = flag.String("i", "", "input file as PDF")
 )
 
 func main() {
 	flag.Parse()
 	config.LoadEnv()
 
-	if err := pdf_usecase.PdfToDocx(*inputFlag, *outputFlag); err != nil {
+	if err := pdf_usecase.PdfToDocx(*inputFlag); err != nil {
 		fmt.Println("Something went wrong: ", err.Error())
 	}
 }
