@@ -23,16 +23,25 @@ func PdfToDocx(inputFile string) error {
 	var wg sync.WaitGroup
 	wg.Add(len(inputFiles))
 
+	var mu sync.Mutex
+
+	var errs int
+
 	for _, file := range inputFiles {
 		go func(file string) {
 			defer wg.Done()
 			if err := converter(file); err != nil {
+				mu.Lock()
+				errs++
+				mu.Unlock()
 				fmt.Fprintf(os.Stderr, "failed to convert %s: %v\n", file, err)
 			}
 		}(file)
 	}
 
 	wg.Wait()
+
+	fmt.Printf("failed to convert %d files:\n", errs)
 
 	return nil
 }
