@@ -52,7 +52,7 @@ func Convertor(selectedStrategy Strategy, inputFile string) error {
 		ch <- struct{}{}
 		wg.Add(1)
 
-		go func(file string) {
+		go func() {
 			defer wg.Done()
 			defer func() { <-ch }()
 
@@ -62,7 +62,7 @@ func Convertor(selectedStrategy Strategy, inputFile string) error {
 				mu.Unlock()
 				fmt.Fprintf(os.Stderr, "failed to convert %s: %v\n", inputFilePath, err)
 			}
-		}(file)
+		}()
 	}
 
 	wg.Wait()
