@@ -26,14 +26,19 @@ func PdfToDocx(inputFile string) error {
 	ch := make(chan struct{}, cpuThreads)
 
 	var wg sync.WaitGroup
-	wg.Add(len(inputFiles))
 
 	var mu sync.Mutex
 
 	var errs int
 
-	for _, file := range inputFiles {
+	for _, f := range inputFiles {
+		file := strings.TrimSpace(f)
+		if file == "" {
+			continue
+		}
+
 		ch <- struct{}{}
+		wg.Add(1)
 
 		go func(file string) {
 			defer wg.Done()
