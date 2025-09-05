@@ -33,10 +33,11 @@ func PdfToDocx(inputFile string) error {
 	var errs int
 
 	for _, file := range inputFiles {
+		ch <- struct{}{}
+
 		go func(file string) {
 			defer wg.Done()
-
-			ch <- struct{}{}
+			defer func() { <-ch }()
 
 			if err := converter(file); err != nil {
 				mu.Lock()
