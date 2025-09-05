@@ -30,7 +30,7 @@ func PdfToDocx(input, output string) error {
 	defer cancel()
 
 	scriptPath, _ := filepath.Abs("tools/pdf_convertor.py")
-	cmd := exec.CommandContext(ctx, "python3", scriptPath, "-i", filePath, "-o", output)
+	cmd := exec.CommandContext(ctx, "python3", scriptPath, "-i", filePath, "-o", output+".docx")
 
 	var stderr bytes.Buffer
 	cmd.Stderr = &stderr
