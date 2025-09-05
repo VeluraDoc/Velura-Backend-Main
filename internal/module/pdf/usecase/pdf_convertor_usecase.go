@@ -41,7 +41,7 @@ func PdfToDocx(inputFile string) error {
 
 	wg.Wait()
 
-	fmt.Printf("failed to convert %d files:\n", errs)
+	fmt.Printf("failed to convert %d files\n", errs)
 
 	return nil
 }
