@@ -78,7 +78,7 @@ http://localhost:8080
 docker build -f Dockerfile.cli -t velura-cli .
 
 # Run CLI to convert a file
-docker run --rm -v "$PWD/data:/data" velura-cli -i /data/input.pdf -o /data/output
+docker run --rm -v "$PWD/data:/data" velura-cli -i /data/input.pdf
 ```
 
 - Your file must be in the `data/` directory.
