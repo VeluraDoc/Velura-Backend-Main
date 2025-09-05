@@ -19,18 +19,30 @@ import (
 	"fmt"
 
 	"github.com/VeluraOpenSource/Velura_Documents_Service/internal/config"
-	pdf_usecase "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/pdf/usecase"
+	pdf_strategy "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/doc/usecase"
+	doc_strategy "github.com/VeluraOpenSource/Velura_Documents_Service/internal/module/doc/usecase/strategy"
 )
 
 var (
-	inputFlag = flag.String("i", "", "input file as PDF")
+	inputFlag    = flag.String("i", "", "input file as PDF")
+	strategyFlag = flag.String("s", "pdf", "conversion strategy (pdf)")
 )
 
 func main() {
 	flag.Parse()
 	config.LoadEnv()
 
-	if err := pdf_usecase.PdfToDocx(*inputFlag); err != nil {
+	var strategy pdf_strategy.Strategy
+
+	switch *strategyFlag {
+	case "pdf":
+		strategy = &doc_strategy.PdfToDocx{}
+
+	default:
+		strategy = &doc_strategy.PdfToDocx{}
+	}
+
+	if err := pdf_strategy.Convertor(strategy, *inputFlag); err != nil {
 		fmt.Println("Something went wrong: ", err.Error())
 	}
 }
