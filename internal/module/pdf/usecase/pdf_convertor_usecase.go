@@ -8,10 +8,13 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"sync"
 	"time"
 )
+
+var cpuThreads int = (runtime.NumCPU() + 1) / 2
 
 func PdfToDocx(inputFile string) error {
 	if strings.TrimSpace(inputFile) == "" {
@@ -19,6 +22,8 @@ func PdfToDocx(inputFile string) error {
 	}
 
 	inputFiles := strings.Split(inputFile, ",")
+
+	ch := make(chan struct{}, cpuThreads)
 
 	var wg sync.WaitGroup
 	wg.Add(len(inputFiles))
@@ -30,6 +35,9 @@ func PdfToDocx(inputFile string) error {
 	for _, file := range inputFiles {
 		go func(file string) {
 			defer wg.Done()
+
+			ch <- struct{}{}
+
 			if err := converter(file); err != nil {
 				mu.Lock()
 				errs++
